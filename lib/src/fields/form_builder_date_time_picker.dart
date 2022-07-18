@@ -144,7 +144,7 @@ class FormBuilderDateTimePicker extends FormBuilderField<DateTime> {
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.cursorWidth = 2.0,
     this.enableInteractiveSelection = true,
-    this.resetIcon = const Icon(Icons.close),
+    this.resetIcon = const Icon(Icons.calendar_today),
     this.initialTime = const TimeOfDay(hour: 12, minute: 0),
     this.keyboardType = TextInputType.text,
     this.textAlign = TextAlign.start,
