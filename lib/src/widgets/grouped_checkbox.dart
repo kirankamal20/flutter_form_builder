@@ -22,7 +22,7 @@ class GroupedCheckbox<T> extends StatelessWidget {
 
   /// The color to use when this checkbox is checked.
   ///
-  /// Defaults to [ThemeData.toggleableActiveColor].
+  /// Defaults to [ColorScheme.secondary].
   final Color? activeColor;
 
   /// The color to use for the check icon when this checkbox is checked.
@@ -181,7 +181,7 @@ class GroupedCheckbox<T> extends StatelessWidget {
   final ControlAffinity controlAffinity;
 
   const GroupedCheckbox({
-    Key? key,
+    super.key,
     required this.options,
     required this.orientation,
     required this.onChanged,
@@ -203,7 +203,7 @@ class GroupedCheckbox<T> extends StatelessWidget {
     this.wrapVerticalDirection = VerticalDirection.down,
     this.separator,
     this.controlAffinity = ControlAffinity.leading,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

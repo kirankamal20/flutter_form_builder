@@ -79,7 +79,7 @@ class FormBuilder extends StatefulWidget {
   ///
   /// The [child] argument must not be null.
   const FormBuilder({
-    Key? key,
+    super.key,
     required this.child,
     this.onChanged,
     this.autovalidateMode,
@@ -89,7 +89,7 @@ class FormBuilder extends StatefulWidget {
     this.enabled = true,
     this.autoFocusOnValidationFailure = false,
     this.clearValueOnUnregister = false,
-  }) : super(key: key);
+  });
 
   static FormBuilderState? of(BuildContext context) =>
       context.findAncestorStateOfType<FormBuilderState>();
@@ -98,12 +98,16 @@ class FormBuilder extends StatefulWidget {
   FormBuilderState createState() => FormBuilderState();
 }
 
+/// A type alias for a map of form fields.
+typedef FormBuilderFields
+    = Map<String, FormBuilderFieldState<FormBuilderField<dynamic>, dynamic>>;
+
 class FormBuilderState extends State<FormBuilder> {
   final _formKey = GlobalKey<FormState>();
 
   bool get enabled => widget.enabled;
 
-  final _fields = <String, FormBuilderFieldState>{};
+  final FormBuilderFields _fields = {};
 
   //because dart type system will not accept ValueTransformer<dynamic>
   final _transformers = <String, Function>{};
@@ -122,7 +126,7 @@ class FormBuilderState extends State<FormBuilder> {
   /// Returns values after saving
   Map<String, dynamic> get initialValue => widget.initialValue;
 
-  Map<String, FormBuilderFieldState> get fields => _fields;
+  FormBuilderFields get fields => _fields;
 
   dynamic transformValue<T>(String name, T? v) {
     final t = _transformers[name];

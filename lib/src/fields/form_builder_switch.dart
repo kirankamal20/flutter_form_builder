@@ -21,12 +21,12 @@ class FormBuilderSwitch extends FormBuilderField<bool> {
 
   /// The color to use when this switch is on.
   ///
-  /// Defaults to [ThemeData.toggleableActiveColor].
+  /// Defaults to [ColorScheme.secondary].
   final Color? activeColor;
 
   /// The color to use on the track when this switch is on.
   ///
-  /// Defaults to [ThemeData.toggleableActiveColor] with the opacity set at 50%.
+  /// Defaults to [ColorScheme.secondary] with the opacity set at 50%.
   ///
   /// Ignored if this switch is created with [Switch.adaptive].
   final Color? activeTrackColor;
@@ -83,19 +83,18 @@ class FormBuilderSwitch extends FormBuilderField<bool> {
 
   /// Creates On/Off switch field
   FormBuilderSwitch({
-    Key? key,
-    //From Super
-    required String name,
-    FormFieldValidator<bool>? validator,
-    bool? initialValue,
-    InputDecoration decoration = const InputDecoration(),
-    ValueChanged<bool?>? onChanged,
-    ValueTransformer<bool?>? valueTransformer,
-    bool enabled = true,
-    FormFieldSetter<bool>? onSaved,
-    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-    VoidCallback? onReset,
-    FocusNode? focusNode,
+    super.key,
+    required super.name,
+    super.validator,
+    super.initialValue,
+    super.decoration,
+    super.onChanged,
+    super.valueTransformer,
+    super.enabled,
+    super.onSaved,
+    super.autovalidateMode = AutovalidateMode.disabled,
+    super.onReset,
+    super.focusNode,
     required this.title,
     this.activeColor,
     this.activeTrackColor,
@@ -111,18 +110,6 @@ class FormBuilderSwitch extends FormBuilderField<bool> {
     this.shouldRequestFocus = false,
     this.selected = false,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          name: name,
-          validator: validator,
-          valueTransformer: valueTransformer,
-          onChanged: onChanged,
-          autovalidateMode: autovalidateMode,
-          onSaved: onSaved,
-          enabled: enabled,
-          onReset: onReset,
-          decoration: decoration,
-          focusNode: focusNode,
           builder: (FormFieldState<bool?> field) {
             final state = field as _FormBuilderSwitchState;
 

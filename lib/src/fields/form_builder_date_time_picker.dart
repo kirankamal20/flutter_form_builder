@@ -40,9 +40,8 @@ class FormBuilderDateTimePicker extends FormBuilderField<DateTime> {
   /// to noon. Explicitly set this to `null` to use the current time.
   final TimeOfDay initialTime;
 
-  /// If defined, the TextField [decoration]'s [suffixIcon] will be
-  /// overridden to reset the input using the icon defined here.
-  /// Set this to `null` to stop that behavior. Defaults to [Icons.close].
+  @Deprecated(
+      'This property is no used anymore. Please use decoration.suffixIcon to set your desired icon')
   final Widget? resetIcon;
 
   /// Called when an enclosing form is saved. The value passed will be `null`
@@ -72,6 +71,7 @@ class FormBuilderDateTimePicker extends FormBuilderField<DateTime> {
   final TextInputType keyboardType;
   final TextStyle? style;
   final TextAlign textAlign;
+  final TextAlignVertical? textAlignVertical;
 
   /// Preset the widget's value.
   final bool autofocus;
@@ -127,19 +127,18 @@ class FormBuilderDateTimePicker extends FormBuilderField<DateTime> {
 
   /// Creates field for `Date`, `Time` and `DateTime` input
   FormBuilderDateTimePicker({
-    Key? key,
-    //From Super
-    required String name,
-    FormFieldValidator<DateTime>? validator,
-    DateTime? initialValue,
-    InputDecoration decoration = const InputDecoration(),
-    ValueChanged<DateTime?>? onChanged,
-    ValueTransformer<DateTime?>? valueTransformer,
-    bool enabled = true,
-    FormFieldSetter<DateTime>? onSaved,
-    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-    VoidCallback? onReset,
-    FocusNode? focusNode,
+    super.key,
+    required super.name,
+    super.validator,
+    super.initialValue,
+    super.decoration,
+    super.onChanged,
+    super.valueTransformer,
+    super.enabled,
+    super.onSaved,
+    super.autovalidateMode = AutovalidateMode.disabled,
+    super.onReset,
+    super.focusNode,
     this.inputType = InputType.both,
     this.scrollPadding = const EdgeInsets.all(20.0),
     this.cursorWidth = 2.0,
@@ -167,6 +166,7 @@ class FormBuilderDateTimePicker extends FormBuilderField<DateTime> {
     this.locale,
     this.maxLength,
     this.textDirection,
+    this.textAlignVertical,
     this.onFieldSubmitted,
     this.controller,
     this.style,
@@ -193,27 +193,16 @@ class FormBuilderDateTimePicker extends FormBuilderField<DateTime> {
     this.anchorPoint,
     this.onEntryModeChanged,
   }) : super(
-          key: key,
-          initialValue: initialValue,
-          name: name,
-          validator: validator,
-          valueTransformer: valueTransformer,
-          onChanged: onChanged,
-          autovalidateMode: autovalidateMode,
-          onSaved: onSaved,
-          enabled: enabled,
-          onReset: onReset,
-          decoration: decoration,
-          focusNode: focusNode,
           builder: (FormFieldState<DateTime?> field) {
             final state = field as _FormBuilderDateTimePickerState;
 
             return TextField(
               textDirection: textDirection,
               textAlign: textAlign,
+              textAlignVertical: textAlignVertical,
               maxLength: maxLength,
               autofocus: autofocus,
-              decoration: state.decoration.copyWith(suffixIcon: resetIcon),
+              decoration: state.decoration,
               readOnly: true,
               enabled: state.enabled,
               autocorrect: autocorrect,
@@ -353,12 +342,26 @@ class _FormBuilderDateTimePickerState
 
   Future<TimeOfDay?> _showTimePicker(
       BuildContext context, DateTime? currentValue) async {
+    var builder = widget.transitionBuilder;
+    if (widget.locale != null) {
+      builder = (context, child) {
+        var transitionBuilder = widget.transitionBuilder;
+        return Localizations.override(
+          context: context,
+          locale: widget.locale,
+          child: transitionBuilder == null
+              ? child
+              : transitionBuilder(context, child),
+        );
+      };
+    }
+
     final timePickerResult = await showTimePicker(
       context: context,
       initialTime: currentValue != null
           ? TimeOfDay.fromDateTime(currentValue)
           : widget.initialTime,
-      builder: widget.transitionBuilder,
+      builder: builder,
       useRootNavigator: widget.useRootNavigator,
       routeSettings: widget.routeSettings,
       initialEntryMode: widget.timePickerInitialEntryMode,

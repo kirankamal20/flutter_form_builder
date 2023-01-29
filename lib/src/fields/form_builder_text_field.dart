@@ -160,6 +160,9 @@ class FormBuilderTextField extends FormBuilderField<String> {
   /// {@macro flutter.widgets.editableText.cursorWidth}
   final double cursorWidth;
 
+  /// {@macro flutter.widgets.editableText.cursorHeight}
+  final double? cursorHeight;
+
   /// {@macro flutter.widgets.editableText.cursorRadius}
   final Radius? cursorRadius;
 
@@ -283,20 +286,19 @@ class FormBuilderTextField extends FormBuilderField<String> {
 
   /// Creates a Material Design text field input.
   FormBuilderTextField({
-    Key? key,
-    //From Super
-    required String name,
-    FormFieldValidator<String>? validator,
+    super.key,
+    required super.name,
+    super.validator,
     String? initialValue,
     bool readOnly = false,
-    InputDecoration decoration = const InputDecoration(),
-    ValueChanged<String?>? onChanged,
-    ValueTransformer<String?>? valueTransformer,
-    bool enabled = true,
-    FormFieldSetter<String>? onSaved,
-    AutovalidateMode autovalidateMode = AutovalidateMode.disabled,
-    VoidCallback? onReset,
-    FocusNode? focusNode,
+    super.decoration,
+    super.onChanged,
+    super.valueTransformer,
+    super.enabled,
+    super.onSaved,
+    super.autovalidateMode = AutovalidateMode.disabled,
+    super.onReset,
+    super.focusNode,
     this.maxLines = 1,
     this.obscureText = false,
     this.textCapitalization = TextCapitalization.none,
@@ -307,6 +309,7 @@ class FormBuilderTextField extends FormBuilderField<String> {
     this.autofocus = false,
     this.autocorrect = true,
     this.cursorWidth = 2.0,
+    this.cursorHeight,
     this.keyboardType,
     this.style,
     this.controller,
@@ -353,18 +356,7 @@ class FormBuilderTextField extends FormBuilderField<String> {
             'Obscured fields cannot be multiline.'),
         assert(maxLength == null || maxLength > 0),
         super(
-          key: key,
           initialValue: controller != null ? controller.text : initialValue,
-          name: name,
-          validator: validator,
-          valueTransformer: valueTransformer,
-          onChanged: onChanged,
-          autovalidateMode: autovalidateMode,
-          onSaved: onSaved,
-          enabled: enabled,
-          onReset: onReset,
-          decoration: decoration,
-          focusNode: focusNode,
           builder: (FormFieldState<String?> field) {
             final state = field as _FormBuilderTextFieldState;
             /*final effectiveDecoration = (decoration ?? const InputDecoration())
@@ -399,6 +391,7 @@ class FormBuilderTextField extends FormBuilderField<String> {
               inputFormatters: inputFormatters,
               enabled: state.enabled,
               cursorWidth: cursorWidth,
+              cursorHeight: cursorHeight,
               cursorRadius: cursorRadius,
               cursorColor: cursorColor,
               scrollPadding: scrollPadding,
